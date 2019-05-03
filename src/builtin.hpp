@@ -24,6 +24,36 @@ inline object_t builtin_cdr(const object_t& cons, env_t& env)
     return eval(cdr(std::get<cell_t>(cons.data)), env);
 }
 
+inline object_t builtin_eq(const object_t& cons, env_t& env)
+{
+    const auto first  = eval(car(cons), env);
+    const auto second = eval(car(cdr(cons)), env);
+
+    if(first.data == second.data)
+    {
+        return object_t(true_t{});
+    }
+    else
+    {
+        return object_t(nil);
+    }
+}
+
+inline object_t builtin_lt(const object_t& cons, env_t& env)
+{
+    const auto first  = eval(car(cons), env);
+    const auto second = eval(car(cdr(cons)), env);
+
+    if(first.data < second.data)
+    {
+        return object_t(true_t{});
+    }
+    else
+    {
+        return object_t(nil);
+    }
+}
+
 inline object_t builtin_plus(const object_t& cons, env_t& env)
 {
     std::int64_t val = 0;
