@@ -58,6 +58,23 @@ inline object_t builtin_println(const object_t& cons, env_t& env)
     return object_t(nil);
 }
 
+inline object_t builtin_if(const object_t& cons, env_t& env)
+{
+    // (if (cond) (then) (else))
+    const object_t& v_cond = eval(car(cons), env);
+    const object_t& v_then = car(cdr(cons));
+    const object_t& v_else = car(cdr(cdr(cons)));
+
+    if(std::holds_alternative<nil_t>(v_cond.data))
+    {
+        return eval(v_else, env);
+    }
+    else // not nil
+    {
+        return eval(v_then, env);
+    }
+}
+
 inline object_t builtin_let(const object_t& cons, env_t& env)
 {
     // (let <symbol> <expr>)
