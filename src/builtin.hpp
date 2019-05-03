@@ -62,8 +62,29 @@ inline object_t builtin_let(const object_t& cons, env_t& env)
 
 inline object_t builtin_define(const object_t& cons, env_t& env)
 {
-    // (define (<symbol> <args...>) (<expr>))
-    return object_t(nil);
+    const object_t& decl = car(cons);
+    const object_t& body = car(cdr(cons));
+
+    if(not std::holds_alternative<nil_t>(cdr(cdr(cons)).data))
+    {
+        throw std::runtime_error(
+            "[error] (define (<name-symbol> <arg-symbol...>) (<expr>))");
+    }
+
+    func_t fn;
+    fn.name = std::get<symbol_t>(car(decl).data).name;
+
+    std::vector<symbol_t> args;
+    for(auto&& syms : make_list(std::get<cell_t>(cdr(decl).data)))
+    {
+        args.push_back(std::get<symbol_t>(syms.data));
+    }
+    fn.args = std::move(args);
+    fn.body = std::get<cell_t>(body.data);
+
+    env[fn.name] = object_t(fn);
+
+    return env.at(fn.name);
 }
 
 } // sml
