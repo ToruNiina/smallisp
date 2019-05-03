@@ -30,6 +30,13 @@ operator<<(std::basic_ostream<charT, traits>& os, const nil_t&)
     return os;
 }
 
+inline bool operator==(const nil_t&, const nil_t&) noexcept {return true;}
+inline bool operator!=(const nil_t&, const nil_t&) noexcept {return false;}
+inline bool operator< (const nil_t&, const nil_t&) noexcept {return false;}
+inline bool operator<=(const nil_t&, const nil_t&) noexcept {return true;}
+inline bool operator> (const nil_t&, const nil_t&) noexcept {return false;}
+inline bool operator>=(const nil_t&, const nil_t&) noexcept {return true;}
+
 struct true_t {};
 
 template<typename charT, typename traits>
@@ -39,6 +46,13 @@ operator<<(std::basic_ostream<charT, traits>& os, const true_t&)
     os << 'T';
     return os;
 }
+
+inline bool operator==(const true_t&, const true_t&) noexcept {return true;}
+inline bool operator!=(const true_t&, const true_t&) noexcept {return false;}
+inline bool operator< (const true_t&, const true_t&) noexcept {return false;}
+inline bool operator<=(const true_t&, const true_t&) noexcept {return true;}
+inline bool operator> (const true_t&, const true_t&) noexcept {return false;}
+inline bool operator>=(const true_t&, const true_t&) noexcept {return true;}
 
 
 struct symbol_t
@@ -99,6 +113,13 @@ operator<<(std::basic_ostream<charT, traits>& os, const cell_t& cell)
     return os;
 }
 
+inline bool operator==(const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs == rhs.objs;}
+inline bool operator!=(const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs != rhs.objs;}
+inline bool operator< (const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs <  rhs.objs;}
+inline bool operator<=(const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs <= rhs.objs;}
+inline bool operator> (const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs >  rhs.objs;}
+inline bool operator>=(const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs >= rhs.objs;}
+
 struct builtin_t
 {
     template<typename Fn>
@@ -123,6 +144,16 @@ operator<<(std::basic_ostream<charT, traits>& os, const builtin_t& func)
     os << func.name;
     return os;
 }
+
+inline bool operator==(const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name == rhs.name;}
+inline bool operator!=(const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name != rhs.name;}
+inline bool operator< (const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name <  rhs.name;}
+inline bool operator<=(const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name <= rhs.name;}
+inline bool operator> (const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name >  rhs.name;}
+inline bool operator>=(const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name >= rhs.name;}
+
+
+
 
 struct func_t
 {
@@ -151,6 +182,12 @@ operator<<(std::basic_ostream<charT, traits>& os, const func_t& func)
     return os;
 }
 
+inline bool operator==(const func_t& lhs, const func_t& rhs) noexcept {return lhs.name == rhs.name;}
+inline bool operator!=(const func_t& lhs, const func_t& rhs) noexcept {return lhs.name != rhs.name;}
+inline bool operator< (const func_t& lhs, const func_t& rhs) noexcept {return lhs.name <  rhs.name;}
+inline bool operator<=(const func_t& lhs, const func_t& rhs) noexcept {return lhs.name <= rhs.name;}
+inline bool operator> (const func_t& lhs, const func_t& rhs) noexcept {return lhs.name >  rhs.name;}
+inline bool operator>=(const func_t& lhs, const func_t& rhs) noexcept {return lhs.name >= rhs.name;}
 struct object_t
 {
     object_t() noexcept: data(nil) {}
@@ -176,6 +213,13 @@ inline object_t const& car(object_t const& cell) noexcept {return car(std::get<c
 inline object_t&       car(object_t&       cell) noexcept {return car(std::get<cell_t>(cell.data));}
 inline object_t const& cdr(object_t const& cell) noexcept {return cdr(std::get<cell_t>(cell.data));}
 inline object_t&       cdr(object_t&       cell) noexcept {return cdr(std::get<cell_t>(cell.data));}
+
+inline bool operator==(const object_t& lhs, const object_t& rhs) noexcept {return lhs.data == rhs.data;}
+inline bool operator!=(const object_t& lhs, const object_t& rhs) noexcept {return lhs.data != rhs.data;}
+inline bool operator< (const object_t& lhs, const object_t& rhs) noexcept {return lhs.data <  rhs.data;}
+inline bool operator<=(const object_t& lhs, const object_t& rhs) noexcept {return lhs.data <= rhs.data;}
+inline bool operator> (const object_t& lhs, const object_t& rhs) noexcept {return lhs.data >  rhs.data;}
+inline bool operator>=(const object_t& lhs, const object_t& rhs) noexcept {return lhs.data >= rhs.data;}
 
 template<typename charT, typename traits>
 std::basic_ostream<charT, traits>&
