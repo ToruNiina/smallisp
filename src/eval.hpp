@@ -6,6 +6,21 @@
 namespace sml
 {
 
+inline std::vector<object_t> make_list(const cell_t& cell)
+{
+    std::vector<object_t> vec;
+    vec.push_back(car(cell));
+
+    object_t const* v_cdr = std::addressof(cdr(cell));
+    while(not std::holds_alternative<nil_t>(v_cdr->data))
+    {
+        const auto& cons = std::get<cell_t>(v_cdr->data);
+        vec.push_back(car(cons));
+        v_cdr = std::addressof(cdr(cons));
+    }
+    return vec;
+}
+
 object_t eval(const object_t& obj, env_t& env);
 
 struct evaluator
