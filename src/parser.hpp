@@ -15,12 +15,12 @@ namespace sml
 inline env_t init_env()
 {
     env_t env;
-    env["+"]      = func_t("builtin_plus",   builtin_plus);
-    env["-"]      = func_t("builtin_minus",  builtin_minus);
-    env["car"]    = func_t("builtin_car",    builtin_car);
-    env["cdr"]    = func_t("builtin_cdr",    builtin_cdr);
-    env["let"]    = func_t("builtin_let",    builtin_let);
-    env["define"] = func_t("builtin_define", builtin_define);
+    env["+"]      = builtin_t("builtin_plus",   builtin_plus);
+    env["-"]      = builtin_t("builtin_minus",  builtin_minus);
+    env["car"]    = builtin_t("builtin_car",    builtin_car);
+    env["cdr"]    = builtin_t("builtin_cdr",    builtin_cdr);
+    env["let"]    = builtin_t("builtin_let",    builtin_let);
+    env["define"] = builtin_t("builtin_define", builtin_define);
     return env;
 }
 

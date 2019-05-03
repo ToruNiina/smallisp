@@ -88,18 +88,18 @@ operator<<(std::basic_ostream<charT, traits>& os, const cell_t& cell)
     return os;
 }
 
-struct func_t
+struct builtin_t
 {
     template<typename Fn>
-    func_t(std::string nm, Fn&& f)
+    builtin_t(std::string nm, Fn&& f)
         : name(std::move(nm)), fn(std::forward<Fn>(f))
     {}
-    func_t()  = default;
-    ~func_t() = default;
-    func_t(func_t const&) = default;
-    func_t(func_t&&)      = default;
-    func_t& operator=(func_t const&) = default;
-    func_t& operator=(func_t&&)      = default;
+    builtin_t()  = default;
+    ~builtin_t() = default;
+    builtin_t(builtin_t const&) = default;
+    builtin_t(builtin_t&&)      = default;
+    builtin_t& operator=(builtin_t const&) = default;
+    builtin_t& operator=(builtin_t&&)      = default;
 
     std::string name;
     std::function<object_t(const object_t&, env_t&)> fn;
@@ -107,7 +107,7 @@ struct func_t
 
 template<typename charT, typename traits>
 std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>& os, const func_t& func)
+operator<<(std::basic_ostream<charT, traits>& os, const builtin_t& func)
 {
     os << func.name;
     return os;
@@ -127,9 +127,9 @@ struct object_t
     object_t(std::int64_t v): data(v) {}
     object_t(symbol_t     v): data(v) {}
     object_t(cell_t       v): data(v) {}
-    object_t(func_t       v): data(v) {}
+    object_t(builtin_t       v): data(v) {}
 
-    std::variant<nil_t, bool, std::int64_t, symbol_t, cell_t, func_t> data;
+    std::variant<nil_t, bool, std::int64_t, symbol_t, cell_t, builtin_t> data;
 };
 
 inline object_t const& car(object_t const& cell) noexcept {return car(std::get<cell_t>(cell.data));}
