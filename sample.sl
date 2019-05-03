@@ -1,3 +1,4 @@
 ; comment
-(let a 1)
-(+ a (+ 2 4 6) 3 5)
+(define (increment x) (+ x 1))
+(let a 0)
+(+ (increment a) (+ 2 4 6) 3 5)
