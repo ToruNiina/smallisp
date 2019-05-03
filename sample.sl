@@ -1,5 +1,5 @@
 (define (fibo-aux n m next curr)
-    (if (= n m) curr (fibo-aux n (+ m 1) (+ next curr) (- next curr)))
+    (if (= n m) curr (fibo-aux n (+ m 1) (+ next curr) next ))
     )
 
 (define (fibo n)
