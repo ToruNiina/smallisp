@@ -15,6 +15,8 @@ namespace sml
 inline env_t init_env()
 {
     env_t env;
+    env["nil"]     = object_t(nil_t{});
+    env["T"]       = object_t(true_t{});
     env["+"]       = builtin_t("builtin_plus",    builtin_plus);
     env["-"]       = builtin_t("builtin_minus",   builtin_minus);
     env["car"]     = builtin_t("builtin_car",     builtin_car);

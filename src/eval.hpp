@@ -50,7 +50,7 @@ struct evaluator
     evaluator& operator=(evaluator&)       = default;
 
     object_t operator()(const nil_t&)          {return object_t(nil);}
-    object_t operator()(const bool& v)         {return object_t(v);}
+    object_t operator()(const true_t& v)       {return object_t(v);}
     object_t operator()(const std::int64_t& v) {return object_t(v);}
     object_t operator()(const builtin_t& v)    {return object_t(v);}
     object_t operator()(const func_t& v)       {return object_t(v);}

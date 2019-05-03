@@ -30,6 +30,17 @@ operator<<(std::basic_ostream<charT, traits>& os, const nil_t&)
     return os;
 }
 
+struct true_t {};
+
+template<typename charT, typename traits>
+std::basic_ostream<charT, traits>&
+operator<<(std::basic_ostream<charT, traits>& os, const true_t&)
+{
+    os << 'T';
+    return os;
+}
+
+
 struct symbol_t
 {
     explicit symbol_t(std::string      s ): name(std::move(s)) {}
@@ -150,14 +161,14 @@ struct object_t
     object_t& operator=(object_t&&)      = default;
 
     object_t(nil_t        v): data(v) {}
-    object_t(bool         v): data(v) {}
+    object_t(true_t       v): data(v) {}
     object_t(std::int64_t v): data(v) {}
     object_t(symbol_t     v): data(v) {}
     object_t(cell_t       v): data(v) {}
     object_t(func_t       v): data(v) {}
     object_t(builtin_t    v): data(v) {}
 
-    std::variant<nil_t, bool, std::int64_t, symbol_t, cell_t, func_t, builtin_t>
+    std::variant<nil_t, true_t, std::int64_t, symbol_t, cell_t, func_t, builtin_t>
         data;
 };
 
