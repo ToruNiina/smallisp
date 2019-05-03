@@ -1,6 +1,18 @@
-; comment
-(define (increment x) (+ x 1))
-(let a 0)
-(+ (increment a) (+ 2 4 6) 3 5)
-(println a)
+(define (fibo-aux n m next curr)
+    (if (= n m) curr (fibo-aux n (+ m 1) (+ next curr) (- next curr)))
+    )
 
+(define (fibo n)
+    (fibo-aux n 0 1 0)
+    )
+
+(println (fibo  1))
+(println (fibo  2))
+(println (fibo  3))
+(println (fibo  4))
+(println (fibo  5))
+(println (fibo  6))
+(println (fibo  7))
+(println (fibo  8))
+(println (fibo  9))
+(println (fibo 10))
