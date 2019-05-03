@@ -31,12 +31,13 @@ object_t apply(const func_t& fn, const object_t& args, env_t& env)
         throw std::runtime_error("[error] lacking function arguments");
     }
 
+    env_t tmp_env = env;
     for(std::size_t i=0; i<fn.args.size(); ++i)
     {
-        env[fn.args.at(i)] = eval(arguments.at(i), env);
+        tmp_env[fn.args.at(i)] = eval(arguments.at(i), env);
     }
 
-    return eval(fn.body, env);
+    return eval(fn.body, tmp_env);
 }
 
 struct evaluator
