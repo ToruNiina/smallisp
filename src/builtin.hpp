@@ -49,6 +49,15 @@ inline object_t builtin_minus(const object_t& cons, env_t& env)
     return object_t(val);
 }
 
+inline object_t builtin_println(const object_t& cons, env_t& env)
+{
+    for(auto&& obj : make_list(std::get<cell_t>(cons.data)))
+    {
+        std::cout << eval(obj, env) << std::endl;
+    }
+    return object_t(nil);
+}
+
 inline object_t builtin_let(const object_t& cons, env_t& env)
 {
     // (let <symbol> <expr>)

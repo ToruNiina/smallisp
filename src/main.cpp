@@ -20,7 +20,7 @@ int main(int argc, char **argv)
         {
             break;
         }
-        std::cout << sml::eval(expr, env) << std::endl;
+        std::cerr << sml::eval(expr, env) << std::endl;
     }
     return 0;
 }
