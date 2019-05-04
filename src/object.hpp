@@ -54,7 +54,6 @@ inline bool operator<=(const true_t&, const true_t&) noexcept {return true;}
 inline bool operator> (const true_t&, const true_t&) noexcept {return false;}
 inline bool operator>=(const true_t&, const true_t&) noexcept {return true;}
 
-
 struct symbol_t
 {
     explicit symbol_t(std::string      s ): name(std::move(s)) {}
@@ -152,9 +151,6 @@ inline bool operator<=(const builtin_t& lhs, const builtin_t& rhs) noexcept {ret
 inline bool operator> (const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name >  rhs.name;}
 inline bool operator>=(const builtin_t& lhs, const builtin_t& rhs) noexcept {return lhs.name >= rhs.name;}
 
-
-
-
 struct func_t
 {
     func_t()  = default;
@@ -200,20 +196,22 @@ struct object_t
     object_t(nil_t        v): data(v) {}
     object_t(true_t       v): data(v) {}
     object_t(std::int64_t v): data(v) {}
-    object_t(symbol_t     v): data(v) {}
-    object_t(cell_t       v): data(v) {}
-    object_t(func_t       v): data(v) {}
-    object_t(builtin_t    v): data(v) {}
+    object_t(std::string  v): data(std::move(v)) {}
+    object_t(symbol_t     v): data(std::move(v)) {}
+    object_t(cell_t       v): data(std::move(v)) {}
+    object_t(func_t       v): data(std::move(v)) {}
+    object_t(builtin_t    v): data(std::move(v)) {}
 
     bool is_nil()     const noexcept {return std::holds_alternative<nil_t       >(data);}
     bool is_T()       const noexcept {return std::holds_alternative<true_t      >(data);}
     bool is_int()     const noexcept {return std::holds_alternative<std::int64_t>(data);}
+    bool is_string()  const noexcept {return std::holds_alternative<std::string >(data);}
     bool is_symbol()  const noexcept {return std::holds_alternative<symbol_t    >(data);}
     bool is_cell()    const noexcept {return std::holds_alternative<cell_t      >(data);}
     bool is_func()    const noexcept {return std::holds_alternative<func_t      >(data);}
     bool is_builtin() const noexcept {return std::holds_alternative<builtin_t   >(data);}
 
-    std::variant<nil_t, true_t, std::int64_t, symbol_t, cell_t, func_t, builtin_t>
+    std::variant<nil_t, true_t, std::int64_t, std::string, symbol_t, cell_t, func_t, builtin_t>
         data;
 };
 
