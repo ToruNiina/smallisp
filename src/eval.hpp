@@ -12,7 +12,7 @@ inline std::vector<object_t> make_list(const cell_t& cell)
     vec.push_back(car(cell));
 
     object_t const* v_cdr = std::addressof(cdr(cell));
-    while(not std::holds_alternative<nil_t>(v_cdr->data))
+    while(not v_cdr->is_nil())
     {
         const auto& cons = std::get<cell_t>(v_cdr->data);
         vec.push_back(car(cons));
@@ -66,11 +66,11 @@ struct evaluator
     object_t operator()(const cell_t& c)
     {
         auto front = eval(car(c), env.get()); // if it is a symbol, search that
-        if(std::holds_alternative<builtin_t>(front.data))
+        if(front.is_builtin())
         {
             return std::get<builtin_t>(front.data).fn(cdr(c), env);
         }
-        else if(std::holds_alternative<func_t>(front.data))
+        else if(front.is_func())
         {
             return apply(std::get<func_t>(front.data), cdr(c), env);
         }

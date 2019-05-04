@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     while(true)
     {
         sml::object_t expr = sml::read_expr(ifs);
-        if(std::holds_alternative<sml::nil_t>(expr.data))
+        if(expr.is_nil())
         {
             break;
         }
