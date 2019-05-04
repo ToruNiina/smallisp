@@ -79,6 +79,19 @@ inline object_t builtin_minus(const object_t& cons, env_t& env)
     return object_t(val);
 }
 
+inline object_t builtin_mod(const object_t& cons, env_t& env)
+{
+    const auto& lhs = eval(car(cons), env);
+    const auto& rhs = eval(car(cdr(cons)), env);
+
+    if(lhs.is_int() && rhs.is_int())
+    {
+        return object_t(std::get<std::int64_t>(lhs.data) %
+                        std::get<std::int64_t>(lhs.data));
+    }
+    throw std::runtime_error("[error] arguments of % must be integers");
+}
+
 inline object_t builtin_println(const object_t& cons, env_t& env)
 {
     for(auto&& obj : make_list(std::get<cell_t>(cons.data)))

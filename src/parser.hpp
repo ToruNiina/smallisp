@@ -19,6 +19,7 @@ inline env_t init_env()
     env["T"]       = object_t(true_t{});
     env["+"]       = builtin_t("builtin_plus",    builtin_plus);
     env["-"]       = builtin_t("builtin_minus",   builtin_minus);
+    env["%"]       = builtin_t("builtin_mod",     builtin_mod);
     env["="]       = builtin_t("builtin_eq",      builtin_eq);
     env["<"]       = builtin_t("builtin_lt",      builtin_lt);
     env["car"]     = builtin_t("builtin_car",     builtin_car);
@@ -170,6 +171,10 @@ object_t read_expr(std::basic_ifstream<charT, traits>& file)
             {
                 return object_t(symbol_t("-"));
             }
+        }
+        if(c == '%')
+        {
+            return object_t(symbol_t("%"));
         }
         if(c == '=')
         {
