@@ -53,6 +53,25 @@ object_t read_number(std::basic_ifstream<charT, traits>& file, char sign)
 }
 
 template<typename charT, typename traits>
+object_t read_string(std::basic_ifstream<charT, traits>& file)
+{
+    std::string token;
+    while(not file.eof())
+    {
+        if(file.peek() != '"')
+        {
+            token += file.get();
+        }
+        else
+        {
+            file.ignore(); // skip "
+            break;
+        }
+    }
+    return object_t(std::move(token));
+}
+
+template<typename charT, typename traits>
 object_t read_symbol(std::basic_ifstream<charT, traits>& file)
 {
     std::string token;
@@ -159,6 +178,10 @@ object_t read_expr(std::basic_ifstream<charT, traits>& file)
         if(c == '<')
         {
             return object_t(symbol_t("<"));
+        }
+        if(c == '"')
+        {
+            return read_string(file);
         }
         if(std::isdigit(c))
         {
