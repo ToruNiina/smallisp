@@ -11,12 +11,10 @@
         )
     )
 
-(define (fizzbuzz-aux n m tmp)
-    (if (= n m) tmp (fizzbuzz-aux n (+ m 1) (print-fizzbuzz m)))
+(define (fizzbuzz iter last)
+    (while (< iter last)
+           (print-fizzbuzz (let iter (+ iter 1)))
+        )
     )
 
-(define (fizzbuzz n)
-    (fizzbuzz-aux (+ n 1) 1 nil)
-    )
-
-(fizzbuzz 30)
+(fizzbuzz 1 30)
