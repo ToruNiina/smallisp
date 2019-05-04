@@ -118,6 +118,25 @@ inline object_t builtin_if(const object_t& cons, env_t& env)
     }
 }
 
+inline object_t builtin_while(const object_t& cons, env_t& env)
+{
+    // (while (cond) (body))
+    const object_t& v_cond = car(cons);
+    const object_t& v_body = car(cdr(cons));
+    if(eval(v_cond, env).is_nil())
+    {
+        return object_t(nil);
+    }
+    while(true)
+    {
+        auto retval = eval(v_body, env);
+        if(eval(v_cond, env).is_nil())
+        {
+            return retval;
+        }
+    }
+}
+
 inline object_t builtin_let(const object_t& cons, env_t& env)
 {
     // (let <symbol> <expr>)
@@ -126,7 +145,7 @@ inline object_t builtin_let(const object_t& cons, env_t& env)
     const object_t& expr = car(cdr(cons));
 
     env[name] = eval(expr, env);
-    return car(cons);
+    return eval(car(cons), env);
 }
 
 inline object_t builtin_define(const object_t& cons, env_t& env)

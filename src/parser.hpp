@@ -28,6 +28,7 @@ inline env_t init_env()
     env["define"]  = builtin_t("builtin_define",  builtin_define);
     env["println"] = builtin_t("builtin_println", builtin_println);
     env["if"]      = builtin_t("builtin_if",      builtin_if);
+    env["while"]   = builtin_t("builtin_while",   builtin_while);
     return env;
 }
 
