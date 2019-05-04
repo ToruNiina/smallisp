@@ -79,7 +79,7 @@ object_t read_symbol(std::basic_ifstream<charT, traits>& file)
     std::string token;
     while(not file.eof())
     {
-        if(std::isalpha(file.peek()) || file.peek() == '-')
+        if(std::isalpha(file.peek()) || file.peek() == '-' || file.peek() == '_')
         {
             token += file.get();
         }
