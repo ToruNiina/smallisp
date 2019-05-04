@@ -87,7 +87,7 @@ inline object_t builtin_mod(const object_t& cons, env_t& env)
     if(lhs.is_int() && rhs.is_int())
     {
         return object_t(std::get<std::int64_t>(lhs.data) %
-                        std::get<std::int64_t>(lhs.data));
+                        std::get<std::int64_t>(rhs.data));
     }
     throw std::runtime_error("[error] arguments of % must be integers");
 }
