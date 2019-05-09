@@ -79,6 +79,11 @@ struct evaluator
             "[error] first value of list must be a func to be evaluated");
     }
 
+    object_t operator()(const array_t& a)
+    {
+        throw std::runtime_error("[TODO] not implemented");
+    }
+
     std::reference_wrapper<env_t> env;
 };
 
