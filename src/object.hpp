@@ -271,6 +271,7 @@ struct object_t
     bool is_string()  const noexcept {return std::holds_alternative<std::string >(data);}
     bool is_symbol()  const noexcept {return std::holds_alternative<symbol_t    >(data);}
     bool is_cell()    const noexcept {return std::holds_alternative<cell_t      >(data);}
+    bool is_array()   const noexcept {return std::holds_alternative<array_t     >(data);}
     bool is_func()    const noexcept {return std::holds_alternative<func_t      >(data);}
     bool is_builtin() const noexcept {return std::holds_alternative<builtin_t   >(data);}
 
