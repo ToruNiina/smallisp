@@ -54,14 +54,50 @@ inline object_t builtin_lt(const object_t& cons, env_t& env)
     }
 }
 
+struct builtin_plus_impl
+{
+    builtin_plus_impl()  = default;
+    ~builtin_plus_impl() = default;
+    builtin_plus_impl(builtin_plus_impl const&) = default;
+    builtin_plus_impl(builtin_plus_impl &&)     = default;
+    builtin_plus_impl& operator=(builtin_plus_impl const&) = default;
+    builtin_plus_impl& operator=(builtin_plus_impl &&)     = default;
+
+    object_t operator()(const std::int64_t& lhs, const std::int64_t& rhs) const
+    {
+        return object_t(lhs + rhs);
+    }
+    object_t operator()(const std::string& lhs, const std::string& rhs) const
+    {
+        return object_t(lhs + rhs);
+    }
+    object_t operator()(const std::int64_t& lhs, const std::string& rhs) const
+    {
+        return object_t(std::to_string(lhs) + rhs);
+    }
+    object_t operator()(const std::string& lhs, const std::int64_t& rhs) const
+    {
+        return object_t(lhs + std::to_string(rhs));
+    }
+    template<typename T, typename U>
+    object_t operator()(const T&, const U&) const
+    {
+        throw std::runtime_error("[error] type error in builtin_plus");
+    }
+};
+
 inline object_t builtin_plus(const object_t& cons, env_t& env)
 {
-    std::int64_t val = 0;
-    for(auto&& obj : make_list(std::get<cell_t>(cons.data)))
+    auto list = make_list(std::get<cell_t>(cons.data));
+    object_t retval(list.front());
+    list.erase(list.begin());
+    for(const auto& obj : list)
     {
-        val += std::get<std::int64_t>(eval(obj, env).data);
+        const auto evaled = eval(obj, env);
+        retval = std::visit(builtin_plus_impl(),
+                            retval.data, evaled.data);
     }
-    return object_t(val);
+    return retval;
 }
 
 inline object_t builtin_minus(const object_t& cons, env_t& env)
