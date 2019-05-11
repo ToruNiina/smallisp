@@ -119,68 +119,6 @@ inline bool operator<=(const cell_t& lhs, const cell_t& rhs) noexcept {return lh
 inline bool operator> (const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs >  rhs.objs;}
 inline bool operator>=(const cell_t& lhs, const cell_t& rhs) noexcept {return lhs.objs >= rhs.objs;}
 
-struct array_t
-{
-    array_t() = default;
-    ~array_t() = default;
-    array_t(const array_t&) = default;
-    array_t(array_t&&)      = default;
-    array_t& operator=(const array_t&) = default;
-    array_t& operator=(array_t&&)      = default;
-
-    void resize(std::size_t n) {objs.resize(n);}
-    std::size_t size() const noexcept {return objs.size();}
-
-    void push_back(const object_t& obj) {objs.push_back(obj);}
-    void push_back(object_t&&      obj) {objs.push_back(std::move(obj));}
-
-    object_t&       operator[](std::size_t i)       noexcept {return objs[i];}
-    object_t const& operator[](std::size_t i) const noexcept {return objs[i];}
-    object_t&       at(std::size_t i)       noexcept {return objs[i];}
-    object_t const& at(std::size_t i) const noexcept {return objs[i];}
-
-    object_t&       front()       noexcept {return objs.front();}
-    object_t const& front() const noexcept {return objs.front();}
-    object_t&       back()        noexcept {return objs.back();}
-    object_t const& back()  const noexcept {return objs.back();}
-
-    auto begin()        noexcept {return objs.begin();}
-    auto end()          noexcept {return objs.end();}
-    auto begin()  const noexcept {return objs.begin();}
-    auto end()    const noexcept {return objs.end();}
-    auto cbegin() const noexcept {return objs.cbegin();}
-    auto cend()   const noexcept {return objs.cend();}
-
-    auto rbegin()        noexcept {return objs.rbegin();}
-    auto rend()          noexcept {return objs.rend();}
-    auto rbegin()  const noexcept {return objs.rbegin();}
-    auto rend()    const noexcept {return objs.rend();}
-    auto crbegin() const noexcept {return objs.crbegin();}
-    auto crend()   const noexcept {return objs.crend();}
-
-    std::vector<object_t> objs;
-};
-
-template<typename charT, typename traits>
-std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>& os, const array_t& array)
-{
-    os << "( ";
-    for(const auto& item : array)
-    {
-        os << item << ' ';
-    }
-    os << ')';
-    return os;
-}
-
-inline bool operator==(const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs == rhs.objs;}
-inline bool operator!=(const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs != rhs.objs;}
-inline bool operator< (const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs <  rhs.objs;}
-inline bool operator<=(const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs <= rhs.objs;}
-inline bool operator> (const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs >  rhs.objs;}
-inline bool operator>=(const array_t& lhs, const array_t& rhs) noexcept {return lhs.objs >= rhs.objs;}
-
 struct builtin_t
 {
     template<typename Fn>
@@ -271,11 +209,10 @@ struct object_t
     bool is_string()  const noexcept {return std::holds_alternative<std::string >(data);}
     bool is_symbol()  const noexcept {return std::holds_alternative<symbol_t    >(data);}
     bool is_cell()    const noexcept {return std::holds_alternative<cell_t      >(data);}
-    bool is_array()   const noexcept {return std::holds_alternative<array_t     >(data);}
     bool is_func()    const noexcept {return std::holds_alternative<func_t      >(data);}
     bool is_builtin() const noexcept {return std::holds_alternative<builtin_t   >(data);}
 
-    std::variant<nil_t, true_t, std::int64_t, std::string, symbol_t, cell_t, array_t, func_t, builtin_t>
+    std::variant<nil_t, true_t, std::int64_t, std::string, symbol_t, cell_t, func_t, builtin_t>
         data;
 };
 
